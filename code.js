@@ -4,8 +4,14 @@ const ctx = canvas.getContext("2d");
 const box = 20;
 
 let snake = [
-  { x: 100, y: 100 } // 👉 CHANGE THIS IF YOU WANT START POSITION
+  { x: 500,
+    y: 300 }
 ];
+
+let food = {
+  x: Math.floor(Math.random() * (1000 / box)) * box,
+  y: Math.floor(Math.random() * (600 / box)) * box
+};
 
 let dx = box;  // 👉 direction X (start moving right)
 let dy = 0;    // 👉 direction Y
