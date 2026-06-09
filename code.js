@@ -32,11 +32,6 @@ function draw() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, 1000, 600);
 
-  /*
-  ========================================
-  5. DRAW SNAKE
-  ========================================
-  */
   ctx.fillStyle = "white";
 
   for (let i = 0; i < snake.length; i++) {
