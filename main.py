@@ -83,7 +83,7 @@ while running:
 
     # --- DRAW ---
     screen.fill(BLACK)
-
+    
     # snake
     for part in snake:
         pygame.draw.rect(screen, WHITE, (*part, CELL_SIZE, CELL_SIZE))
