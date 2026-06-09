@@ -3,35 +3,59 @@ const ctx = canvas.getContext("2d");
 
 const box = 20;
 
-// starting position
-let x = 100;
-let y = 100;
+let snake = [
+  { x: 100, y: 100 } // 👉 CHANGE THIS IF YOU WANT START POSITION
+];
 
-// direction
-let dx = box;
-let dy = 0;
+let dx = box;  // 👉 direction X (start moving right)
+let dy = 0;    // 👉 direction Y
+
+let game = setInterval(draw, 100);
 
 function draw() {
-  // clear screen
+
+  let newHead = {
+    x: snake[0].x + dx, 
+    y: snake[0].y + dy
+  };
+
+  snake.unshift(newHead);
+
+  snake.pop();
+
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, 1000, 600);
 
+  /*
+  ========================================
+  5. DRAW SNAKE
+  ========================================
+  */
   ctx.fillStyle = "white";
-  ctx.fillRect(x, y, box, box);
 
-  // movements
-  x += dx;
-  y += dy;
+  for (let i = 0; i < snake.length; i++) {
+    ctx.fillRect(
+      snake[i].x,
+      snake[i].y,
+      box,
+      box
+    );
+  }
 
-  // wall collision
-  if (x < 0 || x >= 1000 || y < 0 || y >= 600) {
+
+  let head = snake[0];
+
+  if (
+    head.x < 0 ||
+    head.x >= 1000 ||
+    head.y < 0 ||
+    head.y >= 600
+  ) {
     clearInterval(game);
     alert("Game Over!");
   }
 }
 
-// run game loop every 100ms
-setInterval(draw, 100);
 
 document.addEventListener("keydown", function(event) {
 
