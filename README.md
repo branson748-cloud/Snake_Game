@@ -5,4 +5,4 @@ A simple JavaScript, HTML and CSS integrated program that runs a Snake game. The
 The code automatically takes in keyboard inputs using the UP, DOWN, LEFT and RIGHT keys.
 
 ### Notes:
-Program is currently under development, only playable through Microsoft's Live Preview host in VSCode
+Program can be played on pushed [GitHub Page] (https://branson748-cloud.github.io/)
