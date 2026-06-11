@@ -4,14 +4,15 @@ const ctx = canvas.getContext("2d");
 const box = 20;
 
 
+
 let score = 0;
 
 let snake = [
-  { x: 500, y: 300 }
+  { x: 300, y: 300 }
 ];
 
 let food = {
-  x: Math.floor(Math.random() * (1000 / box)) * box,
+  x: Math.floor(Math.random() * (600 / box)) * box,
   y: Math.floor(Math.random() * (600 / box)) * box
 };
 
@@ -56,7 +57,7 @@ function draw() {
     score++;
 
     food = {
-      x: Math.floor(Math.random() * (1000 / box)) * box,
+      x: Math.floor(Math.random() * (600 / box)) * box,
       y: Math.floor(Math.random() * (600 / box)) * box
     };
 
@@ -66,7 +67,7 @@ function draw() {
 
   if (
     newHead.x < 0 ||
-    newHead.x >= 1000 ||
+    newHead.x >= 600 ||
     newHead.y < 0 ||
     newHead.y >= 600
   ) {
@@ -75,11 +76,11 @@ function draw() {
     return;
   }
 
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, 1000, 600);
+  ctx.fillStyle = "#00cc00";
+  ctx.fillRect(0, 0, 600, 600);
 
   // Draw snake
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "#0165fc";
   for (let i = 0; i < snake.length; i++) {
     ctx.fillRect(
       snake[i].x,
