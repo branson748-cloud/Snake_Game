@@ -1,9 +1,7 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-const box = 20;
-
-
+const box = 25;
 
 let score = 0;
 
@@ -12,8 +10,8 @@ let snake = [
 ];
 
 let food = {
-  x: Math.floor(Math.random() * (600 / box)) * box,
-  y: Math.floor(Math.random() * (600 / box)) * box
+  x: Math.floor(Math.random() * (500 / box)) * box,
+  y: Math.floor(Math.random() * (500 / box)) * box
 };
 
 let dx = box;
@@ -57,8 +55,8 @@ function draw() {
     score++;
 
     food = {
-      x: Math.floor(Math.random() * (600 / box)) * box,
-      y: Math.floor(Math.random() * (600 / box)) * box
+      x: Math.floor(Math.random() * (500 / box)) * box,
+      y: Math.floor(Math.random() * (500 / box)) * box
     };
 
   } else {
@@ -67,20 +65,20 @@ function draw() {
 
   if (
     newHead.x < 0 ||
-    newHead.x >= 600 ||
+    newHead.x >= 500 ||
     newHead.y < 0 ||
-    newHead.y >= 600
+    newHead.y >= 500
   ) {
     clearInterval(game);
     alert(`You hit the wall! Score: ${score}`);
     return;
   }
 
-  ctx.fillStyle = "#00cc00";
-  ctx.fillRect(0, 0, 600, 600);
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, 500, 500);
 
   // Draw snake
-  ctx.fillStyle = "#0165fc";
+  ctx.fillStyle = "white";
   for (let i = 0; i < snake.length; i++) {
     ctx.fillRect(
       snake[i].x,
@@ -110,22 +108,22 @@ function draw() {
 
 document.addEventListener("keydown", function(event) {
 
-  if (event.key === "ArrowUp") {
+  if (event.key === "ArrowUp" && dy === 0) {
     nextDx = 0;
     nextDy = -box;
   }
 
-  if (event.key === "ArrowDown") {
+  if (event.key === "ArrowDown" && dy === 0) {
     nextDx = 0;
     nextDy = box;
   }
 
-  if (event.key === "ArrowLeft") {
+  if (event.key === "ArrowLeft" && dx === 0) {
     nextDx = -box;
     nextDy = 0;
   }
 
-  if (event.key === "ArrowRight") {
+  if (event.key === "ArrowRight" && dx === 0) {
     nextDx = box;
     nextDy = 0;
   }
