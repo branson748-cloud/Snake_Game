@@ -46,22 +46,33 @@ function draw() {
     }
   }
 
-
   snake.unshift(newHead);
 
   let ateFood = (newHead.x === food.x && newHead.y === food.y);
 
   if (ateFood) {
-    score++;
+  score++;
+
+  let foodOnSnake = true;
+
+  while (foodOnSnake) {
+    foodOnSnake = false;
 
     food = {
       x: Math.floor(Math.random() * (500 / box)) * box,
       y: Math.floor(Math.random() * (500 / box)) * box
     };
 
-  } else {
-    snake.pop();
+    for (let i = 0; i < snake.length; i++) {
+      if (food.x === snake[i].x && food.y === snake[i].y) {
+        foodOnSnake = true;
+      }
+    }
   }
+
+} else {
+  snake.pop();
+}
 
   if (
     newHead.x < 0 ||
@@ -106,24 +117,50 @@ function draw() {
   ctx.fill();
 }
 
+//RESET GAME
+function resetGame() {
+
+  score = 0;
+
+  snake = [
+    { x: 300, y: 300 }
+  ];
+
+  dx = box;
+  dy = 0;
+
+  nextDx = dx;
+  nextDy = dy;
+
+  food = {
+    x: Math.floor(Math.random() * (500 / box)) * box,
+    y: Math.floor(Math.random() * (500 / box)) * box
+  };
+
+  clearInterval(game);
+  game = setInterval(draw, 90);
+}
+
+document.getElementById("restart").addEventListener("click", resetGame);
+
 document.addEventListener("keydown", function(event) {
 
-  if (event.key === "ArrowUp" && dy === 0) {
+  if (event.key === "ArrowUp" && nextDy === 0) {
     nextDx = 0;
     nextDy = -box;
   }
 
-  if (event.key === "ArrowDown" && dy === 0) {
+  if (event.key === "ArrowDown" && nextDy === 0) {
     nextDx = 0;
     nextDy = box;
   }
 
-  if (event.key === "ArrowLeft" && dx === 0) {
+  if (event.key === "ArrowLeft" && nextDx === 0) {
     nextDx = -box;
     nextDy = 0;
   }
 
-  if (event.key === "ArrowRight" && dx === 0) {
+  if (event.key === "ArrowRight" && nextDx === 0) {
     nextDx = box;
     nextDy = 0;
   }

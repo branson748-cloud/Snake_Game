@@ -1,0 +1,10 @@
+button {
+  font-size: 20px;
+  padding: 15px 25px;
+  cursor: pointer;
+
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
