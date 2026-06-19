@@ -1,10 +1,43 @@
-button {
-  font-size: 20px;
-  padding: 15px 25px;
-  cursor: pointer;
+body {
+    margin: 0;
+    color: white;
+    background-color: black;
+    height: 100vh;
+    position: relative;
+}
 
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+#game-container {
+    position: absolute;
+    left: 45vw; /* 30% from left */
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: flex-start;
+    gap: 100px;
+}
+
+canvas {
+    border: 10px solid white;
+    display: block;
+}
+
+#sidebar {
+  width: 300px;
+}
+
+#sidebar h1 {
+  margin-top: 0;
+}
+
+#sidebar h2 {
+  margin-top: 30px;
+}
+
+
+button {
+    margin-top: 20px;
+    font-size: 22px;
+    padding: 15px 25px;
+    position: relative;
+    cursor: pointer;
 }

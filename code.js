@@ -5,6 +5,9 @@ const box = 25;
 
 let score = 0;
 
+let highScore = localStorage.getItem("highScore");
+highScore = highScore ? parseInt(highScore) : 0;
+
 let snake = [
   { x: 300, y: 300 }
 ];
@@ -53,6 +56,11 @@ function draw() {
   if (ateFood) {
   score++;
 
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem("highScore", highScore);
+  }
+
   let foodOnSnake = true;
 
   while (foodOnSnake) {
@@ -73,6 +81,12 @@ function draw() {
 } else {
   snake.pop();
 }
+
+  document.getElementById("score").textContent =
+    "Score: " + score;
+
+  document.getElementById("highscore").textContent =
+  "High Score: " + highScore;
 
   if (
     newHead.x < 0 ||
@@ -99,10 +113,15 @@ function draw() {
     );
   }
 
+  document.getElementById("score").textContent =
+  "Score: " + score;
+
+  document.getElementById("highscore").textContent =
+  "High Score: " + highScore;
+
   // Draw score
   ctx.fillStyle = "white";
   ctx.font = "24px Arial";
-  ctx.fillText("Score: " + score, 20, 30);
 
   // Draw food (red circle)
   ctx.fillStyle = "red";
@@ -123,7 +142,7 @@ function resetGame() {
   score = 0;
 
   snake = [
-    { x: 300, y: 300 }
+    { x: 250, y: 250 }
   ];
 
   dx = box;
@@ -139,6 +158,9 @@ function resetGame() {
 
   clearInterval(game);
   game = setInterval(draw, 90);
+
+  document.getElementById("score").textContent =
+  "Score: 0";
 }
 
 document.getElementById("restart").addEventListener("click", resetGame);

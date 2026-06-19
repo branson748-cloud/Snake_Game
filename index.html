@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Snake Game</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: black;
-    }
-    canvas {
-      border: 10px solid white;
-    }
-  </style>
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<canvas id="game" width="500" height="500"></canvas>
+    <div id="game-container">
+        <canvas id="game" width="500" height="500"></canvas>
+        <div id = "sidebar">
 
-<link rel="stylesheet" href="style.css">
+          <h1>Snake Game</h1>
 
-<button id="restart">Restart</button>
+          <h2>Controls:</h2>
+          <p>Use the arrow keys to control the snake</p>
 
-<script src="code.js"></script>
+          <button id="restart">Restart</button>
+
+          <h2>Statistics</h2>
+
+          <p id="score">Score: 0</p>
+
+          <p id="highscore">High Score: 0</p>
+
+        </div>
+  
+    </div>
+
+    <script src="code.js"></script>
 
 </body>
 </html>
