@@ -9,7 +9,7 @@ body {
 
 #game-container {
     position: absolute;
-    left: 45vw; /* 30% from left */
+    left: 50vw; /* 50% from left */
     top: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -37,8 +37,14 @@ canvas {
 }
 
 
+#button-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
 button {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: 22px;
     padding: 15px 25px;
     position: relative;

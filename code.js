@@ -1,7 +1,13 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
+const startStopButton = document.getElementById("startStop");
+const restartButton = document.getElementById("restart");
+const scoreText = document.getElementById("score");
+const highscoreText = document.getElementById("highscore");
+
 const box = 25;
+const canvasSize = 500;
 
 let score = 0;
 
@@ -9,13 +15,8 @@ let highScore = localStorage.getItem("highScore");
 highScore = highScore ? parseInt(highScore) : 0;
 
 let snake = [
-  { x: 300, y: 300 }
+  { x: 250, y: 250 }
 ];
-
-let food = {
-  x: Math.floor(Math.random() * (500 / box)) * box,
-  y: Math.floor(Math.random() * (500 / box)) * box
-};
 
 let dx = box;
 let dy = 0;
@@ -23,52 +24,22 @@ let dy = 0;
 let nextDx = dx;
 let nextDy = dy;
 
-let game = setInterval(draw, 90);
+let food = {};
+let game = null;
+let gameRunning = false;
 
 // =====================
-// GAME FUNCTION
+// FOOD SPAWNER
 // =====================
-function draw() {
-
-  // Apply buffered movement
-  dx = nextDx;
-  dy = nextDy;
-
-  // Create new head
-  let newHead = {
-    x: snake[0].x + dx,
-    y: snake[0].y + dy
-  };
-
-  // SELF COLLISION
-  for (let i = 0; i < snake.length; i++) {
-    if (newHead.x === snake[i].x && newHead.y === snake[i].y) {
-      clearInterval(game);
-      alert(`Game Over! Your score: ${score}`);
-      return;
-    }
-  }
-
-  snake.unshift(newHead);
-
-  let ateFood = (newHead.x === food.x && newHead.y === food.y);
-
-  if (ateFood) {
-  score++;
-
-  if (score > highScore) {
-    highScore = score;
-    localStorage.setItem("highScore", highScore);
-  }
-
+function spawnFood() {
   let foodOnSnake = true;
 
   while (foodOnSnake) {
     foodOnSnake = false;
 
     food = {
-      x: Math.floor(Math.random() * (500 / box)) * box,
-      y: Math.floor(Math.random() * (500 / box)) * box
+      x: Math.floor(Math.random() * (canvasSize / box)) * box,
+      y: Math.floor(Math.random() * (canvasSize / box)) * box
     };
 
     for (let i = 0; i < snake.length; i++) {
@@ -77,53 +48,31 @@ function draw() {
       }
     }
   }
-
-} else {
-  snake.pop();
 }
 
-  document.getElementById("score").textContent =
-    "Score: " + score;
+// =====================
+// UPDATE SCORE DISPLAY
+// =====================
+function updateScoreDisplay() {
+  scoreText.textContent = "Score: " + score;
+  highscoreText.textContent = "High Score: " + highScore;
+}
 
-  document.getElementById("highscore").textContent =
-  "High Score: " + highScore;
-
-  if (
-    newHead.x < 0 ||
-    newHead.x >= 500 ||
-    newHead.y < 0 ||
-    newHead.y >= 500
-  ) {
-    clearInterval(game);
-    alert(`You hit the wall! Score: ${score}`);
-    return;
-  }
-
+// =====================
+// DRAW BOARD
+// =====================
+function drawBoard() {
+  // background
   ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, 500, 500);
+  ctx.fillRect(0, 0, canvasSize, canvasSize);
 
-  // Draw snake
+  // snake
   ctx.fillStyle = "white";
   for (let i = 0; i < snake.length; i++) {
-    ctx.fillRect(
-      snake[i].x,
-      snake[i].y,
-      box,
-      box
-    );
+    ctx.fillRect(snake[i].x, snake[i].y, box, box);
   }
 
-  document.getElementById("score").textContent =
-  "Score: " + score;
-
-  document.getElementById("highscore").textContent =
-  "High Score: " + highScore;
-
-  // Draw score
-  ctx.fillStyle = "white";
-  ctx.font = "24px Arial";
-
-  // Draw food (red circle)
+  // food
   ctx.fillStyle = "red";
   ctx.beginPath();
   ctx.arc(
@@ -136,8 +85,97 @@ function draw() {
   ctx.fill();
 }
 
-//RESET GAME
+// =====================
+// STOP GAME
+// =====================
+function stopGame() {
+  if (gameRunning) {
+    clearInterval(game);
+    game = null;
+    gameRunning = false;
+
+    startStopButton.textContent = "START";
+    restartButton.disabled = false;
+  }
+}
+
+// =====================
+// GAME LOOP
+// =====================
+function draw() {
+  // apply buffered movement
+  dx = nextDx;
+  dy = nextDy;
+
+  // create new head
+  let newHead = {
+    x: snake[0].x + dx,
+    y: snake[0].y + dy
+  };
+
+  // wall collision
+  if (
+    newHead.x < 0 ||
+    newHead.x >= canvasSize ||
+    newHead.y < 0 ||
+    newHead.y >= canvasSize
+  ) {
+    stopGame();
+    alert(`You hit the wall! Score: ${score}`);
+    return;
+  }
+
+  // self collision
+  for (let i = 1; i < snake.length; i++) {
+    if (newHead.x === snake[i].x && newHead.y === snake[i].y) {
+      stopGame();
+      alert(`Game over! Score: ${score}`);
+      return;
+    }
+  }
+
+  // move snake
+  snake.unshift(newHead);
+
+  let ateFood = (newHead.x === food.x && newHead.y === food.y);
+
+  if (ateFood) {
+    score++;
+
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem("highScore", highScore);
+    }
+
+    spawnFood();
+  } else {
+    snake.pop();
+  }
+
+  updateScoreDisplay();
+  drawBoard();
+}
+
+// =====================
+// START GAME
+// =====================
+function startGame() {
+  if (!gameRunning) {
+    game = setInterval(draw, 90);
+    gameRunning = true;
+
+    startStopButton.textContent = "STOP";
+    restartButton.disabled = true;
+  }
+}
+
+// =====================
+// RESET GAME
+// =====================
 function resetGame() {
+  if (gameRunning) {
+    return;
+  }
 
   score = 0;
 
@@ -147,26 +185,34 @@ function resetGame() {
 
   dx = box;
   dy = 0;
-
   nextDx = dx;
   nextDy = dy;
 
-  food = {
-    x: Math.floor(Math.random() * (500 / box)) * box,
-    y: Math.floor(Math.random() * (500 / box)) * box
-  };
+  spawnFood();
+  updateScoreDisplay();
+  drawBoard();
 
-  clearInterval(game);
-  game = setInterval(draw, 90);
-
-  document.getElementById("score").textContent =
-  "Score: 0";
+  startStopButton.textContent = "START";
+  restartButton.disabled = false;
 }
 
-document.getElementById("restart").addEventListener("click", resetGame);
+// =====================
+// BUTTON EVENTS
+// =====================
+startStopButton.addEventListener("click", function() {
+  if (gameRunning) {
+    stopGame();
+  } else {
+    startGame();
+  }
+});
 
+restartButton.addEventListener("click", resetGame);
+
+// =====================
+// KEYBOARD CONTROLS
+// =====================
 document.addEventListener("keydown", function(event) {
-
   if (event.key === "ArrowUp" && nextDy === 0) {
     nextDx = 0;
     nextDy = -box;
@@ -186,5 +232,11 @@ document.addEventListener("keydown", function(event) {
     nextDx = box;
     nextDy = 0;
   }
-
 });
+
+// =====================
+// INITIAL SETUP
+// =====================
+spawnFood();
+updateScoreDisplay();
+drawBoard();
