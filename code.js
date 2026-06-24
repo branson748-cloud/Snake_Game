@@ -213,6 +213,22 @@ restartButton.addEventListener("click", resetGame);
 // KEYBOARD CONTROLS
 // =====================
 document.addEventListener("keydown", function(event) {
+    if (event.code === "Space") {
+    event.preventDefault(); // stops page from scrolling when space is pressed
+
+    if (gameRunning) {
+      stopGame();
+    } else {
+      startGame();
+    }
+    return;
+  }
+
+  if (event.key === "r" || event.key === "R") {
+    resetGame();
+    return;
+  }
+  
   if (event.key === "ArrowUp" && nextDy === 0) {
     nextDx = 0;
     nextDy = -box;

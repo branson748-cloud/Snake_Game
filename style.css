@@ -39,12 +39,12 @@ canvas {
 
 #button-row {
   display: flex;
-  gap: 15px;
-  margin-top: 15px;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 button {
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 22px;
     padding: 15px 25px;
     position: relative;
