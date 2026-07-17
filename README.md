@@ -14,3 +14,4 @@ The code automatically takes in keyboard inputs using the UP, DOWN, LEFT and RIG
 
 ## Notes:
 Program can be played on this GitHub Page --> (https://branson748-cloud.github.io/Snake_Game/)
+Feel free to fork this repository and submit a pull request to me 😁
