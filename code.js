@@ -14,6 +14,8 @@ let score = 0;
 let highScore = localStorage.getItem("highScore");
 highScore = highScore ? parseInt(highScore) : 0;
 
+let gameOver = false;
+
 let snake = [
   { x: 250, y: 250 }
 ];
@@ -120,6 +122,7 @@ function draw() {
     newHead.y < 0 ||
     newHead.y >= canvasSize
   ) {
+    gameOver = true;
     stopGame();
     alert(`You hit the wall! Score: ${score}`);
     return;
@@ -128,6 +131,7 @@ function draw() {
   // self collision
   for (let i = 1; i < snake.length; i++) {
     if (newHead.x === snake[i].x && newHead.y === snake[i].y) {
+      gameOver = true;
       stopGame();
       alert(`Game over! Score: ${score}`);
       return;
@@ -160,6 +164,9 @@ function draw() {
 // START GAME
 // =====================
 function startGame() {
+  if (gameOver) {
+    return;
+  }
   if (!gameRunning) {
     game = setInterval(draw, 90);
     gameRunning = true;
@@ -176,6 +183,8 @@ function resetGame() {
   if (gameRunning) {
     return;
   }
+
+  gameOver = false;
 
   score = 0;
 
